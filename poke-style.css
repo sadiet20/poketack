@@ -1,0 +1,97 @@
+/* General items */
+body {
+  font-family: Roboto, Helvetica, sans-serif;
+  margin: 0;
+  background-color: #eee;
+}
+
+a {
+  text-decoration: none;
+  color: #343434;
+}
+
+a:hover,
+a:focus {
+  color: #319df6;
+}
+
+
+/* Top items */
+.site-title {
+  margin: 0;
+  padding: 10px 20px;
+  font-size: 120px;
+  font-weight: 100;
+  background-color: #f68e31;
+  color: #fff;
+}
+
+.navbar {
+  background-color: #fff;
+  font-size: 50px;
+  line-height: 70px;
+}
+
+.navlist {
+  margin: 0 0 0 20px;
+  padding: 0;
+}
+
+.navitem {
+  display: inline-block;
+}
+
+.navlink a {
+  padding: 8px 25px;
+  display: inline-block;
+}
+
+.navlink.active {
+  box-shadow: inset 0 -3px #f68e31;
+}
+
+
+/* Data items */
+
+.instructions {
+    margin: 40px 40px;
+    font-size: 50px;
+    display: block;
+}
+
+.poketack-container {
+    margin: 20px 12%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.type-card {
+    /*flex: 0 1 28%;*/
+    width: 180px;
+    height: 200px;
+    margin: 8px;
+    padding: 20px;
+    border: 1px solid #dadada;
+    border-radius: 2px;
+    background-color: #fff;
+    text-align: center;
+}
+
+.type-card:hover,
+.type-card:focus {
+    box-shadow: 0px 0px 0px 6px #dadada inset;
+    background-color: #888;
+}
+
+.type-icon {
+    width: 160px;
+    height: 160px;
+}
+
+.type-name {
+    margin: 12px;
+    font-size: 30px;
+    display: block;
+}
+
+
