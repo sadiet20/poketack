@@ -69,8 +69,24 @@ function markType(event){
 }
 
 
+//navigate to recommended attacks page and pass the selected types
 function generateAttack(){
-    console.log("==generate attack button clicked")
+    console.log("==generate attack") 
+
+    recommUrl = "recomm-attack.html?"
+
+    //generate parameters for which types are selected
+    var i = 0
+    for(const item of selectedTypes){
+        recommUrl += "type=" + TYPE_NAMES[item]
+        i += 1
+        if(i != selectedTypes.size){
+            recommUrl += "&"
+        }
+    }
+
+    //navigate to url with parameters
+    window.location.assign(recommUrl)
 }
 
 
@@ -82,7 +98,6 @@ generateAttackButton.addEventListener("click", generateAttack)
 var types = document.getElementsByClassName("type-card")
 console.log(types)
 for(var i=0; i<types.length; i++){
-    types[i].poketype = i
+    types[i].poketype = i       //used to idenitfy each individual box
     types[i].addEventListener("click", markType)
 }
-
