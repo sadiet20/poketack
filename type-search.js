@@ -52,7 +52,7 @@ function markType(event){
 function generateAttack(){
     console.log("==generate attack") 
 
-    const recommUrl = "recomm-attack.html?"
+    let recommUrl = "recomm-attack.html?"
 
     //generate parameters for which types are selected
     let i = 0
