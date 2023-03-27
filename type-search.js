@@ -1,28 +1,7 @@
 
 /* Variables */
 
-const TYPES = {
-    NORMAL:     0,
-    FIGHTING:   1,
-    FLYING:     2,
-    POISON:     3,
-    GROUND:     4,
-    ROCK:       5,
-    BUG:        6,
-    GHOST:      7,
-    STEEL:      8,
-    FIRE:       9,
-    WATER:      10,
-    GRASS:      11,
-    ELECTRIC:   12,
-    PSYCHIC:    13,
-    ICE:        14,
-    DRAGON:     15,
-    FAIRY:      16,
-    DARK:       17
-}
-
-var TYPE_NAMES = [
+const typeNames = [
     "normal",
     "fighting",
     "flying",
@@ -52,7 +31,7 @@ const selectedTypes = new Set()
 function markType(event){
     element = event.currentTarget
     clickedType = element.poketype
-    console.log("==selected:", TYPE_NAMES[clickedType])
+    console.log("==selected:", typeNames[clickedType])
 
     //if already selected, remove it
     if(selectedTypes.has(clickedType)){
@@ -73,12 +52,12 @@ function markType(event){
 function generateAttack(){
     console.log("==generate attack") 
 
-    recommUrl = "recomm-attack.html?"
+    const recommUrl = "recomm-attack.html?"
 
     //generate parameters for which types are selected
-    var i = 0
+    let i = 0
     for(const item of selectedTypes){
-        recommUrl += "type=" + TYPE_NAMES[item]
+        recommUrl += "type=" + typeNames[item]
         i += 1
         if(i != selectedTypes.size){
             recommUrl += "&"
@@ -92,12 +71,12 @@ function generateAttack(){
 
 /* Execution */
 
-var generateAttackButton = document.getElementById("generate-attack-button")
+const generateAttackButton = document.getElementById("generate-attack-button")
 generateAttackButton.addEventListener("click", generateAttack)
 
-var types = document.getElementsByClassName("type-card")
+const types = document.getElementsByClassName("type-card")
 console.log(types)
-for(var i=0; i<types.length; i++){
+for(let i=0; i<types.length; i++){
     types[i].poketype = i       //used to idenitfy each individual box
     types[i].addEventListener("click", markType)
 }

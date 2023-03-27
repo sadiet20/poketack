@@ -98,6 +98,10 @@ a:focus {
     display: block;
 }
 
+#avoid-types {
+    margin: 0px 0px 100px 0px;
+}
+
 
 /* Buttons */
 
