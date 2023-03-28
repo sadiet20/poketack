@@ -129,13 +129,13 @@ a:focus {
 }
 
 .successful-copy {
-    width: 500px;
-    height: 170px;
+    width: 520px;
+    height: 200px;
     border-radius: 20px;
     background-color: #46ab35;
     color: #343434;
     font-size: 50px;
-    margin: -85px 0px 0px -250px;
+    margin: -100px 0px 0px -260px;
     position: fixed;
     top: 50%;
     left: 50%;
@@ -146,6 +146,14 @@ a:focus {
 
 .hidden {
     display: none;
+}
+
+.exit-x {
+    font-size: 30px;
+    position: absolute;
+    top: 8px;
+    right: 16px;
+    margin: 0px;
 }
 
 

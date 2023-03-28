@@ -126,7 +126,13 @@ function copyCode(event){
     successAlert[0].classList.remove("hidden")
 
     //hide message again after 2 seconds
-    setTimeout(function(){successAlert[0].classList.add("hidden")}, 2000)
+    setTimeout(hideSuccessAlert, 2000)
+}
+
+//hide success alert
+function hideSuccessAlert(){
+    successAlert = document.getElementsByClassName("successful-copy")
+    successAlert[0].classList.add("hidden")
 }
 
 
@@ -192,7 +198,9 @@ if(valid){
     copySymbols[1].idName = "avoid-code"
     copySymbols[1].addEventListener("click", copyCode)
 
-    //ADD: hide successful copy message if 'x' is clicked
+    //hide successful copy message if 'x' is clicked
+    let exitX = document.getElementsByClassName("exit-x")
+    exitX[0].addEventListener("click", hideSuccessAlert)
 }
 
 
