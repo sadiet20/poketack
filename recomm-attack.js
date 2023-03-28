@@ -107,6 +107,24 @@ function validateParams(selectedTypes){
     return true
 }
 
+//adds pokemon code to HTML
+function addCode(code, location){
+    codeText = document.getElementById(location)
+    codeText.innerHTML = code
+}
+
+//copy pokemon code to clipboard
+function copyCode(event){
+    console.log("id:", event.currentTarget.idName)
+    codeText = document.getElementById(event.currentTarget.idName)
+
+    navigator.clipboard.writeText(codeText.innerHTML)
+    console.log("copying:", codeText.innerHTML)
+
+    alert("Copied the text:\n" + codeText.innerHTML)
+    
+}
+
 
 /* Execution */
 
@@ -115,7 +133,7 @@ console.log("query:", queryString)
 
 const urlSearch = new URLSearchParams(queryString)
 selectedTypes = urlSearch.getAll("type")
-console.log("params:", selectedTypes)
+console.log("!!params:", selectedTypes)
 
 
 //make sure parameters are valid types
@@ -128,24 +146,47 @@ if(valid){
     }
 
     //add types that are strong against opponent
+    let attackCode = ""
     for(let i=0; i<selectedTypeNums.length; i++){
         let opp_type = selectedTypeNums[i]
         for(let j=0; j<NUM_TYPES; j++){
             if(attackStrength[j][opp_type] == 1){
                 addTypeCard(typeNames[j], "attack-types")
+
+                //create code for attack types
+                if(attackCode != ""){
+                    attackCode += ", "
+                }
+                attackCode += "@" + typeNames[j]
             }
         }
     }
+    addCode(attackCode, "attack-code")
 
     //add types that are vulnerable to opponent
+    let avoidCode = ""
     for(let i=0; i<selectedTypeNums.length; i++){
         let opp_type = selectedTypeNums[i]
         for(let j=0; j<NUM_TYPES; j++){
             if(attackStrength[opp_type][j] == 1){
                 addTypeCard(typeNames[j], "avoid-types")
+                
+                //create code for avoid types
+                if(avoidCode != ""){
+                    avoidCode += " | "
+                }
+                avoidCode += "!" + typeNames[j]
             }
         }
     }
+    addCode(avoidCode, "avoid-code")
+
+    //set event listeners for copy buttons
+    let copySymbols = document.getElementsByClassName("copy-icon")
+    copySymbols[0].idName = "attack-code"
+    copySymbols[0].addEventListener("click", copyCode)
+    copySymbols[1].idName = "avoid-code"
+    copySymbols[1].addEventListener("click", copyCode)
 }
 
 

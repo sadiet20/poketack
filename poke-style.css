@@ -1,8 +1,8 @@
 /* General items */
 body {
-  font-family: Roboto, Helvetica, sans-serif;
-  margin: 0;
-  background-color: #eee;
+    margin: 0px 0px 100px 0px;
+    font-family: Roboto, Helvetica, sans-serif;
+    background-color: #eee;
 }
 
 a {
@@ -98,8 +98,34 @@ a:focus {
     display: block;
 }
 
-#avoid-types {
-    margin: 0px 0px 100px 0px;
+.code-container {
+    display: flex;
+    justify-content: center;
+    vertical-align: middle;
+}
+
+.copy-icon {
+    width: 50px;
+    height: 50px;
+    background-color: #46ab35;
+    border-radius: 10px;
+    box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.poketack-code {
+    width: 700px;
+    margin: 0px 10px;
+    padding: 0px;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    background-color: #fff;
+    color: #888;
+    font-size: 20px;
+    outline: 1px solid #dadada;
+}
+
+.code-text {
+    margin: 5px;
 }
 
 
@@ -107,7 +133,7 @@ a:focus {
 
 #generate-attack-button {
     display: flex;
-    margin: 40px auto 100px auto;
+    margin: 40px auto 40px auto;
     align-items: center;
     justify-content: center;
     width: 500px;
