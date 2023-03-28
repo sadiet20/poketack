@@ -128,6 +128,26 @@ a:focus {
     margin: 5px;
 }
 
+.successful-copy {
+    width: 500px;
+    height: 170px;
+    border-radius: 20px;
+    background-color: #46ab35;
+    color: #343434;
+    font-size: 50px;
+    margin: -85px 0px 0px -250px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+.hidden {
+    display: none;
+}
+
 
 /* Buttons */
 

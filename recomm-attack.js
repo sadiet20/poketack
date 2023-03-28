@@ -121,8 +121,12 @@ function copyCode(event){
     navigator.clipboard.writeText(codeText.innerHTML)
     console.log("copying:", codeText.innerHTML)
 
-    alert("Copied the text:\n" + codeText.innerHTML)
-    
+    //remove hidden tag to make message visible
+    successAlert = document.getElementsByClassName("successful-copy")
+    successAlert[0].classList.remove("hidden")
+
+    //hide message again after 2 seconds
+    setTimeout(function(){successAlert[0].classList.add("hidden")}, 2000)
 }
 
 
@@ -133,7 +137,7 @@ console.log("query:", queryString)
 
 const urlSearch = new URLSearchParams(queryString)
 selectedTypes = urlSearch.getAll("type")
-console.log("!!params:", selectedTypes)
+console.log("params:", selectedTypes)
 
 
 //make sure parameters are valid types
@@ -187,6 +191,8 @@ if(valid){
     copySymbols[0].addEventListener("click", copyCode)
     copySymbols[1].idName = "avoid-code"
     copySymbols[1].addEventListener("click", copyCode)
+
+    //ADD: hide successful copy message if 'x' is clicked
 }
 
 
