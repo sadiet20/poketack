@@ -46,25 +46,26 @@ const typeNames = [
     "dark"
 ]
 
-//row is attacking column, 1 = strong, 0 = weak
-const attackStrength = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //normal
-                        [1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1], //fighting
-                        [0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0], //flying
-                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0], //poison
-                        [0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0], //ground
-                        [0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0], //rock
-                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1], //bug
-                        [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0], //ghost
-                        [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0], //steel
-                        [0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0], //fire
-                        [0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0], //water
-                        [0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0], //grass
-                        [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0], //electric
-                        [0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //psychic
-                        [0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0], //ice
-                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0], //dragon
-                        [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1], //fairy
-                        [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0]] //dark
+//row is attacking column, 2 = strong, 1 = normal, 0 = weak
+//source: https://www.eurogamer.net/pokemon-go-type-chart-effectiveness-weaknesses
+const attackStrength = [[1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1], //normal
+                        [2, 1, 0, 0, 1, 2, 0, 0, 2, 1, 1, 1, 1, 0, 2, 1, 0, 2], //fighting
+                        [1, 2, 1, 1, 1, 0, 2, 1, 0, 1, 1, 2, 0, 1, 1, 1, 1, 1], //flying
+                        [1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 2, 1, 1, 1, 1, 2, 1], //poison
+                        [1, 1, 0, 2, 1, 2, 0, 1, 2, 2, 1, 0, 2, 1, 1, 1, 1, 1], //ground
+                        [1, 0, 2, 1, 0, 1, 2, 1, 0, 2, 1, 1, 1, 1, 2, 1, 1, 1], //rock
+                        [1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 2, 1, 2, 1, 1, 0, 2], //bug
+                        [0, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 0], //ghost
+                        [1, 1, 1, 1, 1, 2, 1, 1, 0, 0, 0, 1, 0, 1, 2, 1, 2, 1], //steel
+                        [1, 1, 1, 1, 1, 0, 2, 1, 2, 0, 0, 2, 1, 1, 2, 0, 1, 1], //fire
+                        [1, 1, 1, 1, 2, 2, 1, 1, 1, 2, 0, 0, 1, 1, 1, 0, 1, 1], //water
+                        [1, 1, 0, 0, 2, 2, 0, 1, 0, 0, 2, 0, 1, 1, 1, 0, 1, 1], //grass
+                        [1, 1, 2, 1, 0, 1, 1, 1, 1, 1, 2, 0, 0, 1, 1, 0, 1, 1], //electric
+                        [1, 2, 1, 2, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0], //psychic
+                        [1, 1, 2, 1, 2, 1, 1, 1, 0, 0, 0, 2, 1, 1, 0, 2, 1, 1], //ice
+                        [1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 2, 0, 1], //dragon
+                        [1, 2, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 2, 1, 2], //fairy
+                        [1, 0, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 0, 0]] //dark
 
 const selectedTypeNums = []
 
@@ -163,6 +164,22 @@ function createDoubleAttackCode(strongAttacks){
     return code
 }
 
+function createNoWeakCode(weakAttacks){
+   /*
+    * Ex: dark attack is weak (dark cannot be quick move and one of charged moves must not be dark)
+    * !@1dark & (!@2dark, (!@move & !@3dark)) === !@1dark & (!@2dark, !@move) & (!@2dark, !@3dark)
+    */
+    let code = ""
+    for(let i=0; i<weakAttacks.length; i++){
+        if(i != 0){
+            code += " & "
+        }
+        code += "!@1" + weakAttacks[i] + " & !@2" + weakAttacks[i] + ", !@move & !@2" + weakAttacks[i] + ", !@3" + weakAttacks[i]
+    }
+
+    return code
+}
+
 
 /* Execution */
 
@@ -185,11 +202,12 @@ if(valid){
 
     //add types that are strong against opponent
     let strongAttacks = []
+    let weakAttacks = []
     let attackCode = ""
     for(let i=0; i<selectedTypeNums.length; i++){
         let opp_type = selectedTypeNums[i]
         for(let j=0; j<NUM_TYPES; j++){
-            if(attackStrength[j][opp_type] == 1){
+            if(attackStrength[j][opp_type] == 2){
                 //keep track of strong attacks
                 strongAttacks.push(typeNames[j])
 
@@ -202,6 +220,9 @@ if(valid){
                 }
                 attackCode += "@" + typeNames[j]
             }
+            else if(attackStrength[j][opp_type] == 0){
+                weakAttacks.push(typeNames[j])
+            }
         }
     }
     addCode(attackCode, "attack-code")
@@ -211,7 +232,7 @@ if(valid){
     for(let i=0; i<selectedTypeNums.length; i++){
         let opp_type = selectedTypeNums[i]
         for(let j=0; j<NUM_TYPES; j++){
-            if(attackStrength[opp_type][j] == 1){
+            if(attackStrength[opp_type][j] == 2){
                 addTypeCard(typeNames[j], "avoid-types")
                 
                 //create code for avoid types
@@ -224,18 +245,30 @@ if(valid){
     }
     addCode(avoidCode, "avoid-code")
 
+    //insert '&' for combining with other codes
+    if(avoidCode != ""){
+        avoidCode = " & " + avoidCode
+    }
+
     //add code for attack and avoid combined
-    addCode(attackCode+" & "+avoidCode, "attack-avoid-code")
+    addCode(attackCode+avoidCode, "attack-avoid-code")
 
     //add code for quick and charged strong attacks
     let doubleAttackCode = createDoubleAttackCode(strongAttacks)
     addCode(doubleAttackCode, "double-attack-code")
 
     //add code for quick + charged strong attacks + avoid combined
-    addCode(doubleAttackCode+" & "+avoidCode, "double-attack-avoid-code")
+    addCode(doubleAttackCode+avoidCode, "double-attack-avoid-code")
+
+    //add code for only picking strong and normal attacks
+    let attackNoWeakCode = attackCode + " & " + createNoWeakCode(weakAttacks)
+    addCode(attackNoWeakCode, "attack-no-weak-code")
+
+    //add code for strong attacks + no weak attacks + avoid combined
+    addCode(attackNoWeakCode+avoidCode, "attack-no-weak-avoid-code")
 
     //set event listeners for copy buttons 
-    let codeSections = ["attack-code", "avoid-code", "attack-avoid-code", "double-attack-code", "double-attack-avoid-code"]
+    let codeSections = ["attack-code", "avoid-code", "attack-avoid-code", "double-attack-code", "double-attack-avoid-code", "attack-no-weak-code", "attack-no-weak-avoid-code"]
     let copySymbols = document.getElementsByClassName("copy-icon")
     for(let i=0; i<copySymbols.length; i++){
         copySymbols[i].idName = codeSections[i]
@@ -249,11 +282,11 @@ if(valid){
 
 
 /*
-//print stats for what each type is vulnerable to
+//print stats for what each type is weak towards
 for(let i=0; i<attackStrength.length; i++){
-    console.log(typeNames[i], "is vulnerable to:")
+    console.log(typeNames[i], "is weak toward:")
     for(let j=0; j<attackStrength[i].length; j++){
-        if(attackStrength[j][i] == 1){
+        if(attackStrength[i][j] == 0){
             console.log("\t", typeNames[j])
         }
     }
