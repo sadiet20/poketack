@@ -54,7 +54,7 @@ a:focus {
 /* Data items */
 
 .instructions {
-    margin: 40px 40px;
+    margin: 40px 40px 20px 40px;
     font-size: 50px;
     display: block;
 }
@@ -102,6 +102,7 @@ a:focus {
     display: flex;
     justify-content: center;
     vertical-align: middle;
+    margin: 0px 0px 20px 0px;
 }
 
 .copy-icon {
@@ -122,6 +123,11 @@ a:focus {
     color: #888;
     font-size: 20px;
     outline: 1px solid #dadada;
+}
+
+.code-title {
+    font-size: 20px;
+    margin: 0px 0px 10px 75px;
 }
 
 .code-text {

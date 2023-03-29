@@ -118,8 +118,8 @@ function copyCode(event){
     console.log("id:", event.currentTarget.idName)
     codeText = document.getElementById(event.currentTarget.idName)
 
-    navigator.clipboard.writeText(codeText.innerHTML)
-    console.log("copying:", codeText.innerHTML)
+    navigator.clipboard.writeText(codeText.firstChild.data)
+    console.log("copying:", codeText.firstChild.data)
 
     //remove hidden tag to make message visible
     successAlert = document.getElementsByClassName("successful-copy")
@@ -133,6 +133,34 @@ function copyCode(event){
 function hideSuccessAlert(){
     successAlert = document.getElementsByClassName("successful-copy")
     successAlert[0].classList.add("hidden")
+}
+
+//creates filter code for two strong attacks
+function createDoubleAttackCode(strongAttacks){
+    /* 
+     * Ex: looking for strong attacks fire and dark
+     * (@1fire, @1dark) & (@2fire, @3fire, @2dark, @3dark)
+     */
+    let code = ""
+    for(let i=0; i<strongAttacks.length; i++){
+        if(i != 0){
+            code += ", "
+        }
+
+        code += "@1" + strongAttacks[i]
+    }
+
+    code += " & "
+
+    for(let i=0; i<strongAttacks.length; i++){
+        if(i != 0){
+            code += ", "
+        }
+
+        code += "@2" + strongAttacks[i] + ", @3" + strongAttacks[i]
+    }
+
+    return code
 }
 
 
@@ -156,11 +184,16 @@ if(valid){
     }
 
     //add types that are strong against opponent
+    let strongAttacks = []
     let attackCode = ""
     for(let i=0; i<selectedTypeNums.length; i++){
         let opp_type = selectedTypeNums[i]
         for(let j=0; j<NUM_TYPES; j++){
             if(attackStrength[j][opp_type] == 1){
+                //keep track of strong attacks
+                strongAttacks.push(typeNames[j])
+
+                //add card to page
                 addTypeCard(typeNames[j], "attack-types")
 
                 //create code for attack types
@@ -183,7 +216,7 @@ if(valid){
                 
                 //create code for avoid types
                 if(avoidCode != ""){
-                    avoidCode += " | "
+                    avoidCode += " & "
                 }
                 avoidCode += "!" + typeNames[j]
             }
@@ -191,12 +224,23 @@ if(valid){
     }
     addCode(avoidCode, "avoid-code")
 
-    //set event listeners for copy buttons
+    //add code for attack and avoid combined
+    addCode(attackCode+" & "+avoidCode, "attack-avoid-code")
+
+    //add code for quick and charged strong attacks
+    let doubleAttackCode = createDoubleAttackCode(strongAttacks)
+    addCode(doubleAttackCode, "double-attack-code")
+
+    //add code for quick + charged strong attacks + avoid combined
+    addCode(doubleAttackCode+" & "+avoidCode, "double-attack-avoid-code")
+
+    //set event listeners for copy buttons 
+    let codeSections = ["attack-code", "avoid-code", "attack-avoid-code", "double-attack-code", "double-attack-avoid-code"]
     let copySymbols = document.getElementsByClassName("copy-icon")
-    copySymbols[0].idName = "attack-code"
-    copySymbols[0].addEventListener("click", copyCode)
-    copySymbols[1].idName = "avoid-code"
-    copySymbols[1].addEventListener("click", copyCode)
+    for(let i=0; i<copySymbols.length; i++){
+        copySymbols[i].idName = codeSections[i]
+        copySymbols[i].addEventListener("click", copyCode)
+    }
 
     //hide successful copy message if 'x' is clicked
     let exitX = document.getElementsByClassName("exit-x")
