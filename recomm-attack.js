@@ -253,13 +253,6 @@ if(valid){
     //add code for attack and avoid combined
     addCode(attackCode+avoidCode, "attack-avoid-code")
 
-    //add code for quick and charged strong attacks
-    let doubleAttackCode = createDoubleAttackCode(strongAttacks)
-    addCode(doubleAttackCode, "double-attack-code")
-
-    //add code for quick + charged strong attacks + avoid combined
-    addCode(doubleAttackCode+avoidCode, "double-attack-avoid-code")
-
     //add code for only picking strong and normal attacks
     let attackNoWeakCode = attackCode + " & " + createNoWeakCode(weakAttacks)
     addCode(attackNoWeakCode, "attack-no-weak-code")
@@ -267,8 +260,15 @@ if(valid){
     //add code for strong attacks + no weak attacks + avoid combined
     addCode(attackNoWeakCode+avoidCode, "attack-no-weak-avoid-code")
 
+    //add code for quick and charged strong attacks
+    let doubleAttackCode = createDoubleAttackCode(strongAttacks)
+    addCode(doubleAttackCode, "double-attack-code")
+
+    //add code for quick + charged strong attacks + avoid combined
+    addCode(doubleAttackCode+avoidCode, "double-attack-avoid-code")
+
     //set event listeners for copy buttons 
-    let codeSections = ["attack-code", "avoid-code", "attack-avoid-code", "double-attack-code", "double-attack-avoid-code", "attack-no-weak-code", "attack-no-weak-avoid-code"]
+    let codeSections = ["attack-code", "avoid-code", "attack-avoid-code", "attack-no-weak-code", "attack-no-weak-avoid-code", "double-attack-code", "double-attack-avoid-code"]
     let copySymbols = document.getElementsByClassName("copy-icon")
     for(let i=0; i<copySymbols.length; i++){
         copySymbols[i].idName = codeSections[i]
