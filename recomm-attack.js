@@ -72,12 +72,17 @@ const selectedTypeNums = []
 
 /* Functions */
 
-function addTypeCard(type_name, location){
+function addTypeCard(type_name, occurance, location){
     opponentContainer = document.getElementById(location)
     console.log(opponentContainer)
 
-    html =  "<section class='type-card'>" +
-                "<img class='type-icon' src='icons/" + type_name + ".svg' />" +
+    html =  "<section class='type-card'>"
+
+    if(occurance > 1){
+        html += "<p class='duplicate-sign'> x" + occurance + " </p>"
+    }
+    
+    html +=     "<img class='type-icon' src='icons/" + type_name + ".svg' />" +
                 "<div class='type-name'>" +
                     type_name +
                 "</div>" +
@@ -106,6 +111,118 @@ function validateParams(selectedTypes){
         }
     }
     return true
+}
+
+//copies type info from src to dest and keeps track of duplicates
+function copyAttacks(src, dest){
+    for(let i=0; i<src.length; i++){
+        //check if this type is already listed
+        let duplicate = false
+        for(let j=0; j<dest.name.length; j++){
+            //found duplicate
+            if(src[i] == dest.name[j]){
+                duplicate = true
+                dest.strength[j] += 1
+                break;
+            }
+        }
+
+        //if not found, add to array
+        if(!duplicate){
+            dest.name.push(src[i])
+            dest.strength.push(1)
+        }
+    }
+}
+
+//calculate the strong and weak attacks
+function calcAttacks(strongAttacks, weakAttacks){
+    let strong = []
+    let weak = []
+
+    //keep track of strong and weak attacks
+    for(let i=0; i<selectedTypeNums.length; i++){
+        let opp_type = selectedTypeNums[i]
+        for(let j=0; j<NUM_TYPES; j++){
+            if(attackStrength[j][opp_type] == 2){
+                strong.push(typeNames[j])
+            }
+            else if(attackStrength[j][opp_type] == 0){
+                weak.push(typeNames[j])
+            }
+        }
+    }
+
+    //if a type is strong and weak, it balances out to neutral
+    for(let i=0; i<strong.length; i++){
+        for(let j=0; j<weak.length; j++){
+            //remove type from both arrays if matching
+            if(strong[i] == weak[j]){
+                console.log("\t!!", strong[i], "is both a strong and weak attack, removing it...")
+                strong.splice(i, 1)     //removes 1 element starting at i
+                weak.splice(j, 1)
+                i -= 1                  //decrement i and j to account for splice
+                j -= 1
+            }
+        }
+    }
+
+    //copy into parameters and note if there are duplicates
+    copyAttacks(strong, strongAttacks)
+    copyAttacks(weak, weakAttacks)
+}
+
+//create attack cards and code
+function createAttacks(strongAttacks){
+    let code = ""
+    for(let i=0; i<strongAttacks.name.length; i++){
+        //add card to page
+        addTypeCard(strongAttacks.name[i], strongAttacks.strength[i], "attack-types")
+
+        //create code for attack types
+        if(code != ""){
+            code += ", "
+        }
+        code += "@" + strongAttacks.name[i]
+    }
+    return code
+}
+
+//create cards and code for aviod types
+function createAvoid(){
+    //accumulate all the types to avoid
+    let avoid = []
+    for(let i=0; i<selectedTypeNums.length; i++){
+        let opp_type = selectedTypeNums[i]
+        for(let j=0; j<NUM_TYPES; j++){
+            if(attackStrength[opp_type][j] == 2){
+                avoid.push(typeNames[j])
+            }
+        }
+    }
+
+    let avoidTypes = {
+        name: [],
+        strength: []
+    }
+
+    //copy into struct and note if there are duplicates
+    copyAttacks(avoid, avoidTypes)
+
+    //add avoid cards and create code
+    let avoidCode = ""
+    for(let i=0; i<avoidTypes.name.length; i++){
+        //create card with number of occurances
+        addTypeCard(avoidTypes.name[i], avoidTypes.strength[i], "avoid-types")
+        
+        //create code for avoid types
+        if(avoidCode != ""){
+            avoidCode += " & "
+        }
+        avoidCode += "!" + avoidTypes.name[i]
+    }
+
+    return avoidCode
 }
 
 //adds pokemon code to HTML
@@ -197,52 +314,28 @@ let valid = validateParams(selectedTypes)
 if(valid){
     //add card to signify opponent types
     for(let i=0; i<selectedTypes.length; i++){
-        addTypeCard(selectedTypes[i], "opponent-types")
+        addTypeCard(selectedTypes[i], 1, "opponent-types")
     }
 
-    //add types that are strong against opponent
-    let strongAttacks = []
-    let weakAttacks = []
-    let attackCode = ""
-    for(let i=0; i<selectedTypeNums.length; i++){
-        let opp_type = selectedTypeNums[i]
-        for(let j=0; j<NUM_TYPES; j++){
-            if(attackStrength[j][opp_type] == 2){
-                //keep track of strong attacks
-                strongAttacks.push(typeNames[j])
-
-                //add card to page
-                addTypeCard(typeNames[j], "attack-types")
-
-                //create code for attack types
-                if(attackCode != ""){
-                    attackCode += ", "
-                }
-                attackCode += "@" + typeNames[j]
-            }
-            else if(attackStrength[j][opp_type] == 0){
-                weakAttacks.push(typeNames[j])
-            }
-        }
+    //determine types that are strong or weak against opponent
+    let strongAttacks = {
+        name: [],
+        strength: []
     }
+    let weakAttacks = {
+        name: [],
+        strength: []
+    }
+    calcAttacks(strongAttacks, weakAttacks)
+    console.log("strongAttacks:", strongAttacks)
+    console.log("weakAttacks:", weakAttacks)
+
+    //add cards and code for strong attacks
+    let attackCode = createAttacks(strongAttacks)
     addCode(attackCode, "attack-code")
 
     //add types that are vulnerable to opponent
-    let avoidCode = ""
-    for(let i=0; i<selectedTypeNums.length; i++){
-        let opp_type = selectedTypeNums[i]
-        for(let j=0; j<NUM_TYPES; j++){
-            if(attackStrength[opp_type][j] == 2){
-                addTypeCard(typeNames[j], "avoid-types")
-                
-                //create code for avoid types
-                if(avoidCode != ""){
-                    avoidCode += " & "
-                }
-                avoidCode += "!" + typeNames[j]
-            }
-        }
-    }
+    let avoidCode = createAvoid()
     addCode(avoidCode, "avoid-code")
 
     //insert '&' for combining with other codes
@@ -254,14 +347,14 @@ if(valid){
     addCode(attackCode+avoidCode, "attack-avoid-code")
 
     //add code for only picking strong and normal attacks
-    let attackNoWeakCode = attackCode + " & " + createNoWeakCode(weakAttacks)
+    let attackNoWeakCode = attackCode + " & " + createNoWeakCode(weakAttacks.name)
     addCode(attackNoWeakCode, "attack-no-weak-code")
 
     //add code for strong attacks + no weak attacks + avoid combined
     addCode(attackNoWeakCode+avoidCode, "attack-no-weak-avoid-code")
 
     //add code for quick and charged strong attacks
-    let doubleAttackCode = createDoubleAttackCode(strongAttacks)
+    let doubleAttackCode = createDoubleAttackCode(strongAttacks.name)
     addCode(doubleAttackCode, "double-attack-code")
 
     //add code for quick + charged strong attacks + avoid combined
